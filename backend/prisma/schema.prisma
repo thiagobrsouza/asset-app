@@ -12,3 +12,42 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
+model Customer {
+  id   Int    @id @default(autoincrement())
+  name String @unique @db.VarChar(255)
+
+  @@map("customers")
+}
+
+model Manufacturer {
+  id   Int    @id @default(autoincrement())
+  name String @unique @db.VarChar(255)
+
+  @@map("manufacturers")
+}
+
+model Category {
+  id         Int          @id @default(autoincrement())
+  name       String       @unique @db.VarChar(255)
+  AssetModel AssetModel[]
+
+  @@map("categories")
+}
+
+model Location {
+  id    Int    @id @default(autoincrement())
+  name  String @unique @db.VarChar(255)
+  notes String @db.Text
+
+  @@map("locations")
+}
+
+model AssetModel {
+  id         Int      @id @default(autoincrement())
+  name       String   @unique @db.VarChar(255)
+  category   Category @relation(fields: [categoryId], references: [id])
+  categoryId Int
+
+  @@map("asset_models")
+}
