@@ -21,8 +21,9 @@ model Customer {
 }
 
 model Manufacturer {
-  id   Int    @id @default(autoincrement())
-  name String @unique @db.VarChar(255)
+  id         Int          @id @default(autoincrement())
+  name       String       @unique @db.VarChar(255)
+  AssetModel AssetModel[]
 
   @@map("manufacturers")
 }
@@ -44,10 +45,12 @@ model Location {
 }
 
 model AssetModel {
-  id         Int      @id @default(autoincrement())
-  name       String   @unique @db.VarChar(255)
-  category   Category @relation(fields: [categoryId], references: [id])
-  categoryId Int
+  id             Int          @id @default(autoincrement())
+  name           String       @unique @db.VarChar(255)
+  category       Category     @relation(fields: [categoryId], references: [id])
+  categoryId     Int
+  manufacturer   Manufacturer @relation(fields: [manufacturerId], references: [id])
+  manufacturerId Int
 
   @@map("asset_models")
 }
